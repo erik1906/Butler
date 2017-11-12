@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "460655860936",
+    "firebase_url": "https://butler-cceb0.firebaseio.com",
+    "project_id": "butler-cceb0",
+    "storage_bucket": "butler-cceb0.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:460655860936:android:45dcc8b11b7675c8",
+        "android_client_info": {
+          "package_name": "com.company.shidoris.butler"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "460655860936-etai7bi4av091uii49bso4hfeau6b6pv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.company.shidoris.butler",
+            "certificate_hash": "207f3a4772a5181eb64e21d1aba4c53056f22bf6"
+          }
+        },
+        {
+          "client_id": "460655860936-qh6rpt18oh1k2ef0u9ru39711ti6nfi3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAXg_RwjbO1ZPDd6_e1kjNX1afGt06f2_Q"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "460655860936-qh6rpt18oh1k2ef0u9ru39711ti6nfi3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
