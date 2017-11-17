@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Butler</string>
+    <string name="title_activity_log_in">LogInActivity</string>
+    <string name="web_client_id">460655860936-qh6rpt18oh1k2ef0u9ru39711ti6nfi3.apps.googleusercontent.com</string>
+    <string name="facebook_app_id">457740364627576</string>
+    <string name="fb_login_protocol_scheme">fb457740364627576</string>
+
 </resources>
