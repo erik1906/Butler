@@ -8,25 +8,26 @@ import java.util.List;
 
 public class UserData {
 
-    private String currenRequesr;
-    private List<String> RequestIds;
+    private Request currentRequest;
+    private List<String> requestIds;
+
 
     public UserData() {
     }
 
-    public String getCurrenRequesr() {
-        return currenRequesr;
+    public Request getCurrentRequest() {
+        return currentRequest;
     }
 
-    public void setCurrenRequesr(String currenRequesr) {
-        this.currenRequesr = currenRequesr;
+    public void setCurrentRequest(Request currentRequest) {
+        this.currentRequest = currentRequest;
     }
 
     public List<String> getRequestIds() {
-        return RequestIds;
+        return requestIds;
     }
 
     public void setRequestIds(List<String> requestIds) {
-        RequestIds = requestIds;
+        this.requestIds = requestIds;
     }
 }
