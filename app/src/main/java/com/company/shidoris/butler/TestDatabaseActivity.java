@@ -17,7 +17,10 @@ public class TestDatabaseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_database);
 
-        mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseCUD.newRequest(mDatabase, new Request("Deliver","12/12/2013", "1234341234","124123423","12342342","2423412344", DummyData.getProductsDummy()));
+//        mDatabase = FirebaseDatabase.getInstance().getReference();
+//        DatabaseCUD.newRequest(mDatabase, new Request("Deliver","12/12/2013", "1234341234","124123423","12342342","2423412344", DummyData.getProductsDummy()));
+//        DatabaseCUD.finishCurrent(mDatabase);
+//        DatabaseCUD.updateCurrent(mDatabase,"Going");
+
     }
 }
