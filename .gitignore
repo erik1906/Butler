@@ -7,3 +7,5 @@
 /build
 /captures
 .externalNativeBuild
+/app/src/main/java/com/company/shidoris/butler/TestDatabaseActivity.java
+/app/src/main/res/layout/activity_test_database.xml
