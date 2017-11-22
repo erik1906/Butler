@@ -17,5 +17,5 @@
         table:layout_constraintStart_toStartOf="parent"
         table:layout_constraintTop_toTopOf="parent"
         table:tableView_columnCount="3"
-        table:tableView_headerColor="#424242" />
+        table:tableView_headerColor="#9E9E9E" />
 </FrameLayout>

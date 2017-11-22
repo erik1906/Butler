@@ -1,6 +1,7 @@
 package com.company.shidoris.butler;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -77,8 +78,11 @@ public class Payment_Fragment extends Fragment {
         txt_metodopago.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "HOLA",
-                        Toast.LENGTH_LONG).show();
+                /*Toast.makeText(getActivity(), "HOLA",
+                        Toast.LENGTH_LONG).show();*/
+                Intent myIntent = new Intent(getContext(), add_Credit.class);
+                //myIntent.putExtra("key", value); //Optional parameters
+               getContext().startActivity(myIntent);
             }
         });
 

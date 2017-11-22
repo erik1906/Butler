@@ -79,10 +79,9 @@ public class Main_Fragment extends Fragment {
         }
     }
 
-    private static final String[] TABLE_HEADERS = { "#", "Status", "Description" };
-    private static final String[][] DATA_TO_SHOW = { { "1", "2", "3" },
-            { "4", "5", "6" },{ "1", "2", "3" },{ "1", "2", "3" },{ "1", "2", "3" },{ "1", "2", "3" },{ "1", "2", "3" },
-            { "1", "2", "3" },{ "1", "2", "3" },{ "1", "2", "3" },{ "1", "2", "3" }};
+    private static final String[] TABLE_HEADERS = {  "Status", "Description" };
+    private static final String[][] DATA_TO_SHOW = { {  "Active", "Buy Food" },{ "Pending", "Buy weed" },
+            {  "Completed", "Bring Documents" },};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

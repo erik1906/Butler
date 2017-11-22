@@ -34,8 +34,8 @@
             table:layout_constraintEnd_toEndOf="parent"
             table:layout_constraintStart_toStartOf="parent"
             table:layout_constraintTop_toTopOf="parent"
-            table:tableView_columnCount="3"
-            table:tableView_headerColor="#424242" />
+            table:tableView_columnCount="2"
+            table:tableView_headerColor="#9E9E9E" />
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/btn_add"
@@ -48,7 +48,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tableView"
             android:tint="#fff"
-            app:srcCompat="@drawable/ic_menu_share" />
+            app:srcCompat="@drawable/ic_add" />
 
         <ImageView
             android:id="@+id/imageView2"

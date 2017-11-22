@@ -41,7 +41,13 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".add_creditCard"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="@string/title_activity_add_credit_card"
+            android:theme="@style/FullscreenTheme" />
+        <activity android:name=".add_Credit"></activity>
     </application>
 
 </manifest>
