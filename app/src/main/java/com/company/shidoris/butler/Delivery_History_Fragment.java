@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import de.codecrafters.tableview.TableView;
+import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
+import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,12 +63,22 @@ public class Delivery_History_Fragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
     }
-
+    private static final String[] TABLE_HEADERS = { "Delivery", "Date", "Amount" };
+    private static final String[][] DATA_TO_SHOW = { { "Delivery 1", "12/12/17", "$500" },{ "Delivery 2", "12/12/17", "$500" },
+            { "Delivery 3", "08/12/17", "$200" }, { "Delivery 4", "11/12/17", "$1,500" },};
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_delivery__history, container, false);
+        View rootView= inflater.inflate(R.layout.fragment_delivery__history, container, false);
+
+        TableView<String[]> tableView = (TableView<String[]>)rootView.findViewById(R.id.tableView2);
+        tableView.setDataAdapter(new SimpleTableDataAdapter(getContext(), DATA_TO_SHOW));
+        tableView.setHeaderAdapter(new SimpleTableHeaderAdapter(getContext(), TABLE_HEADERS));
+
+
+
+        return rootView;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

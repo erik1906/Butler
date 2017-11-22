@@ -6,5 +6,16 @@
     tools:context="com.company.shidoris.butler.Delivery_History_Fragment">
 
     <!-- TODO: Update blank fragment layout -->
-
+    <de.codecrafters.tableview.TableView xmlns:table="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/tableView2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        table:layout_constraintEnd_toEndOf="parent"
+        table:layout_constraintStart_toStartOf="parent"
+        table:layout_constraintTop_toTopOf="parent"
+        table:tableView_columnCount="3"
+        table:tableView_headerColor="#424242" />
 </FrameLayout>
