@@ -1,5 +1,14 @@
 <resources>
     <string name="app_name">Butler</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_log_in">LogInActivity</string>
     <string name="web_client_id">460655860936-qh6rpt18oh1k2ef0u9ru39711ti6nfi3.apps.googleusercontent.com</string>
     <string name="facebook_app_id">457740364627576</string>
