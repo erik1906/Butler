@@ -11,7 +11,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LogInActivity"></activity>
+        <activity android:name=".ActivityLogin"></activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -46,12 +46,11 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".add_creditCard"
+
+        <activity android:name=".AddCredit"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_add_credit_card"
-            android:theme="@style/FullscreenTheme" />
-        <activity android:name=".add_Credit"></activity>
+            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>

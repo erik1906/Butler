@@ -9,11 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import de.codecrafters.tableview.TableView;
-import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
-import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
 
 /**
@@ -80,7 +75,7 @@ public class Payment_Fragment extends Fragment {
             public void onClick(View view) {
                 /*Toast.makeText(getActivity(), "HOLA",
                         Toast.LENGTH_LONG).show();*/
-                Intent myIntent = new Intent(getContext(), add_Credit.class);
+                Intent myIntent = new Intent(getContext(), AddCredit.class);
                 //myIntent.putExtra("key", value); //Optional parameters
                getContext().startActivity(myIntent);
             }
