@@ -1,12 +1,19 @@
 package com.company.shidoris.butler;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import de.codecrafters.tableview.TableView;
+import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
+import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
 
 /**
@@ -64,8 +71,28 @@ public class Payment_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_payment_, container, false);
+        View rootView=inflater.inflate(R.layout.fragment_payment_, container, false);
+
+        TextView txt_metodopago = (TextView)rootView.findViewById(R.id.txt_agregar_metodo);
+
+        txt_metodopago.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                /*Toast.makeText(getActivity(), "HOLA",
+                        Toast.LENGTH_LONG).show();*/
+                Intent myIntent = new Intent(getContext(), add_Credit.class);
+                //myIntent.putExtra("key", value); //Optional parameters
+               getContext().startActivity(myIntent);
+            }
+        });
+
+
+
+
+
+        return rootView;
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

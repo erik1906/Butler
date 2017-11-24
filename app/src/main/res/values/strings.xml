@@ -9,6 +9,10 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="title_activity_add_credit_card">add_creditCard</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_log_in">LogInActivity</string>
     <string name="web_client_id">460655860936-qh6rpt18oh1k2ef0u9ru39711ti6nfi3.apps.googleusercontent.com</string>
     <string name="facebook_app_id">457740364627576</string>
