@@ -36,8 +36,10 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -81,6 +83,8 @@ public class MapsActivity extends  AppCompatActivity implements GoogleMap.OnMyLo
         setContentView(R.layout.activity_maps);
         ButterKnife.bind(this);
 
+        tvSelect.setText("Select the destinationo: ");
+
         mResultReceiver = new AddressResultReceiver(new Handler());
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
@@ -91,6 +95,8 @@ public class MapsActivity extends  AppCompatActivity implements GoogleMap.OnMyLo
     @Override
     public void onMapReady(final GoogleMap map) {
         mMap = map;
+
+        mMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(this, R.raw.mapstyle_retro));
         mMap.setOnMarkerDragListener(this);
         mMap.setOnMyLocationButtonClickListener(this);
         mMap.setOnMyLocationClickListener(this);
@@ -124,7 +130,7 @@ public class MapsActivity extends  AppCompatActivity implements GoogleMap.OnMyLo
                         .build();                   // Creates a CameraPosition from the builder
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
                 markerFrom = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("From here").draggable(true);
-                markerTo = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("To here").draggable(true);
+                markerTo = new MarkerOptions().position(new LatLng(location.getLatitude(), location.getLongitude())).title("To here").draggable(true).icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                 mMap.addMarker(markerFrom);
             }
 
@@ -133,7 +139,7 @@ public class MapsActivity extends  AppCompatActivity implements GoogleMap.OnMyLo
 
     @OnClick(R.id.bAceptar)
     public void changeUI(){
-        tvSelect.setText("Seleccione ");
+        tvSelect.setText("Select the source. ");
         bAcept.setVisibility(View.GONE);
         bNext.setVisibility(View.VISIBLE);
         mMap.addMarker(markerTo);
@@ -257,9 +263,15 @@ public class MapsActivity extends  AppCompatActivity implements GoogleMap.OnMyLo
 
             // Show a toast message if an address was found.
             if (resultCode == Constants.SUCCESS_RESULT) {
-                //showToast(getString(R.string.address_found));
+                String[] string = mAddressOutput.split(",");
+                updateUI(string[0]);
             }
 
         }
+    }
+
+    private void updateUI(String string){
+        tvSelect.setText(string);
+
     }
 }
