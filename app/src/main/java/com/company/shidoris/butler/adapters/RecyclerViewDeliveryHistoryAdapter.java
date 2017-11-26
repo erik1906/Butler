@@ -41,7 +41,7 @@ public class RecyclerViewDeliveryHistoryAdapter extends RecyclerView.Adapter<Rec
 
     @Override
     public int getItemCount() {
-        return 0;
+        return registers.size();
     }
 
 
