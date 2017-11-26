@@ -66,6 +66,7 @@ public class Delivery_History_Fragment extends Fragment {
     private static final String[] TABLE_HEADERS = { "Delivery", "Date", "Amount" };
     private static final String[][] DATA_TO_SHOW = { { "Delivery 1", "12/12/17", "$500" },{ "Delivery 2", "12/12/17", "$500" },
             { "Delivery 3", "08/12/17", "$200" }, { "Delivery 4", "11/12/17", "$1,500" },};
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,8 +76,6 @@ public class Delivery_History_Fragment extends Fragment {
         TableView<String[]> tableView = (TableView<String[]>)rootView.findViewById(R.id.tableView2);
         tableView.setDataAdapter(new SimpleTableDataAdapter(getContext(), DATA_TO_SHOW));
         tableView.setHeaderAdapter(new SimpleTableHeaderAdapter(getContext(), TABLE_HEADERS));
-
-
 
         return rootView;
     }
