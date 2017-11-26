@@ -86,10 +86,9 @@ public class Delivery_History_Fragment extends Fragment {
         View rootView= inflater.inflate(R.layout.fragment_delivery__history, container, false);
 
 
-        registers.add(new DeliveryRegister("Delivery 1", "12/12/17", "$500"));
-        registers.add(new DeliveryRegister("Delivery 2", "12/12/17", "$500"));
-        registers.add(new DeliveryRegister("Delivery 3", "08/12/17", "$200"));
-        registers.add(new DeliveryRegister("Delivery 4", "11/12/17", "$1,500" ));
+        registers.add(new DeliveryRegister("12/12/17","Accepted" , "$500"));
+        registers.add(new DeliveryRegister("12/12/17", "Deliver", "$500"));
+        registers.add(new DeliveryRegister("08/12/17", "Accepted", "$200"));
 
         RecyclerViewDeliveryHistoryAdapter adapter = new RecyclerViewDeliveryHistoryAdapter(registers);
 

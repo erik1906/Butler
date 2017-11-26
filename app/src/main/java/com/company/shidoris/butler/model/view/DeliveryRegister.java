@@ -6,22 +6,14 @@ package com.company.shidoris.butler.model.view;
 
 public class DeliveryRegister {
 
-    private String title;
     private String date;
+    private String status;
     private String total;
 
-    public DeliveryRegister(String title, String date, String total) {
-        this.title = title;
+    public DeliveryRegister(String date, String status, String total) {
         this.date = date;
+        this.status = status;
         this.total = total;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
     }
 
     public String getDate() {
@@ -30,6 +22,14 @@ public class DeliveryRegister {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getTotal() {

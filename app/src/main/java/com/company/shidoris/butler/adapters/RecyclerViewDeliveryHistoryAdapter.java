@@ -34,8 +34,8 @@ public class RecyclerViewDeliveryHistoryAdapter extends RecyclerView.Adapter<Rec
     public void onBindViewHolder(DeliveryHistoryHolder holder, int position) {
         DeliveryRegister register = registers.get(position);
 
-        holder.title.setText(register.getTitle());
         holder.date.setText(register.getDate());
+        holder.status.setText(register.getStatus());
         holder.total.setText(register.getTotal());
     }
 
@@ -47,15 +47,15 @@ public class RecyclerViewDeliveryHistoryAdapter extends RecyclerView.Adapter<Rec
 
     public static class DeliveryHistoryHolder extends RecyclerView.ViewHolder {
 
-        private TextView title;
         private TextView date;
+        private TextView status;
         private TextView total;
 
         public DeliveryHistoryHolder(View view) {
             super(view);
 
-            title = (TextView) view.findViewById(R.id.history_item_title);
-            date = (TextView) view.findViewById(R.id.history_item_date);
+            date = (TextView) view.findViewById(R.id.history_item_dates);
+            status = (TextView) view.findViewById(R.id.history_item_status);
             total = (TextView) view.findViewById(R.id.history_item_total);
         }
     }
