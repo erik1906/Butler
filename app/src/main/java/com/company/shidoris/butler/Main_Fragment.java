@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -94,6 +95,7 @@ MapView mMapView;
     FloatingActionButton btn_cancel,btn_add;
 
     private DatabaseReference mDatabase;
+    TextView txt_duration;
 
 
 
@@ -156,9 +158,11 @@ MapView mMapView;
         //DatabaseCUD.newRequest(mDatabase, new Request("Deliver","12/12/2013", "1234341234","124123423","12342342","2423412344", DummyData.getProductsDummy()));
         btn_cancel = (FloatingActionButton)rootView.findViewById(R.id.btn_delete);
         btn_add = (FloatingActionButton)rootView.findViewById(R.id.btn_add);
+        txt_duration=(TextView)rootView.findViewById(R.id.txt_duration);
 
 
-
+        Toast.makeText(getContext(), "Hola.",
+                Toast.LENGTH_SHORT).show();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -166,13 +170,13 @@ MapView mMapView;
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserData userData = dataSnapshot.getValue(UserData.class);
-
                 if (userData == null || userData.getCurrentRequest()== null) {
                     // Note is null, error out
+                    //Log.d("Current","you can only have one requestat the time");
                     showInputDialog();
                     btn_cancel.setVisibility(View.GONE);
                     btn_add.setVisibility(View.VISIBLE);
-                    Log.d("Current","you can only have one requestat the time");
+
                     btn_add.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -182,8 +186,10 @@ MapView mMapView;
 
 
                 } else {
+
                     mapView(rootView);
                     btn_cancel.setVisibility(View.VISIBLE);
+                    showSnack();
                     //cancelDialog();
                     //Send the data to add the note ot the database.
 
@@ -197,7 +203,19 @@ MapView mMapView;
         });
         return rootView;
     }
+private void showSnack(){
+    Snackbar snackbar = Snackbar
+            .make(getView(), "Status: ACCEPTADA", Snackbar.LENGTH_INDEFINITE)
+            .setAction("UNDO", new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar snackbar1 = Snackbar.make(getView(), "HOLI!", Snackbar.LENGTH_SHORT);
+                    snackbar1.show();
+                }
+            });
 
+    snackbar.show();
+}
 private void mapView(View view){
 
         mMapView =(MapView)view.findViewById(R.id.map);

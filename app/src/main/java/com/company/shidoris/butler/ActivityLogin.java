@@ -84,7 +84,7 @@ public class ActivityLogin extends AppCompatActivity {
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
 
-        final Button btn_log = (Button)findViewById(R.id.btn_login);
+        /*final Button btn_log = (Button)findViewById(R.id.btn_login);
         btn_log.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -92,7 +92,7 @@ public class ActivityLogin extends AppCompatActivity {
                 startActivity(intent);
 
             }
-        });
+        });*/
     }
 
     //Click listener for the sing in button
