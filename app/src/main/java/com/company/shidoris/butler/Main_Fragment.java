@@ -36,6 +36,7 @@ import android.widget.Toast;
 
 import com.company.shidoris.butler.model.Request;
 import com.company.shidoris.butler.model.RequestsData;
+import com.company.shidoris.butler.model.UserData;
 import com.company.shidoris.butler.utils.Constants;
 import com.company.shidoris.butler.utils.DatabaseCUD;
 import com.company.shidoris.butler.utils.DummyData;
@@ -73,6 +74,7 @@ import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
 
+import static android.content.ContentValues.TAG;
 import static android.content.Context.LOCATION_SERVICE;
 
 
@@ -89,6 +91,7 @@ public class Main_Fragment extends Fragment implements OnMapReadyCallback
 
 GoogleMap mGoogleMap;
 MapView mMapView;
+    FloatingActionButton btn_cancel,btn_add;
 
     private DatabaseReference mDatabase;
 
@@ -151,39 +154,47 @@ MapView mMapView;
 
         //mDatabase = FirebaseDatabase.getInstance().getReference();
         //DatabaseCUD.newRequest(mDatabase, new Request("Deliver","12/12/2013", "1234341234","124123423","12342342","2423412344", DummyData.getProductsDummy()));
+        btn_cancel = (FloatingActionButton)rootView.findViewById(R.id.btn_delete);
+        btn_add = (FloatingActionButton)rootView.findViewById(R.id.btn_add);
 
 
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        DatabaseReference ref = mDatabase.child("requestsdata");
-ref.addListenerForSingleValueEvent(new ValueEventListener() {
-    @Override
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        if(dataSnapshot.exists()){
-            mapView(rootView);
 
-            Request data= dataSnapshot.getValue(Request.class);
-            
-            String datas= data.getStatus();
-            Toast.makeText(getContext(), datas,
-                    Toast.LENGTH_SHORT).show();
+        mDatabase.child("userId").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                UserData userData = dataSnapshot.getValue(UserData.class);
 
-        }
-        else
-        {
-            showInputDialog();
-        }
-
-    }
-
-    @Override
-    public void onCancelled(DatabaseError databaseError) {
-
-    }
-});
+                if (userData == null || userData.getCurrentRequest()== null) {
+                    // Note is null, error out
+                    showInputDialog();
+                    btn_cancel.setVisibility(View.GONE);
+                    btn_add.setVisibility(View.VISIBLE);
+                    Log.d("Current","you can only have one requestat the time");
+                    btn_add.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            showInputDialog();
+                        }
+                    });
 
 
+                } else {
+                    mapView(rootView);
+                    btn_cancel.setVisibility(View.VISIBLE);
+                    //cancelDialog();
+                    //Send the data to add the note ot the database.
+
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.w(TAG, "getPost:onCancelled", databaseError.toException());
+            }
+        });
         return rootView;
     }
 
@@ -194,14 +205,15 @@ private void mapView(View view){
             mMapView.onCreate(null);
             mMapView.onResume();
             mMapView.getMapAsync(this);
-            FloatingActionButton btn_cancel = (FloatingActionButton)view.findViewById(R.id.btn_delete);
+
             btn_cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    showInputDialog();
-                    //cancelDialog();
+                    //showInputDialog();
+                    cancelDialog();
                 }
             });
+
 
         }
 
@@ -266,7 +278,7 @@ mGoogleMap=map;
         Button btn_addP =(Button)promptView.findViewById(R.id.btn_agregar);
 
 
-       final ArrayAdapter<String >adapter= new ArrayAdapter<String>(promptView.getContext(),android.R.layout.simple_expandable_list_item_1,listaProductos);
+       final ArrayAdapter<String>adapter= new ArrayAdapter<String>(promptView.getContext(),android.R.layout.simple_expandable_list_item_1,listaProductos);
        lvproducto.setAdapter(adapter);
 
         btn_addP.setOnClickListener(new View.OnClickListener() {
