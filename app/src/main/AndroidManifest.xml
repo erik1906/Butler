@@ -60,8 +60,8 @@
 
         <activity android:name=".AddCredit"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_add_credit_card"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:label="@string/title_activity_add_credit_card">
+        </activity>
 
         <activity android:name=".TestDatabaseActivity" />
         <!--
