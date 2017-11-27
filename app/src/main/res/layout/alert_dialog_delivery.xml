@@ -6,32 +6,10 @@
     android:orientation="vertical"
     android:padding="10dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Pick At"
-        android:id="@+id/textView" />
 
-    <EditText
-        android:id="@+id/edittext"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Direccion.."
-        android:padding="10dp" />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Deliver At"
-        android:id="@+id/textView1" />
 
-    <EditText
-        android:id="@+id/edittext1"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:hint="Deliver.."
-        android:padding="10dp" />
+
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -40,12 +18,12 @@
         android:id="@+id/textView2" />
 
     <EditText
-        android:id="@+id/edittext2"
+        android:id="@+id/txtProd"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="Products.."
         android:padding="10dp" />
-    <TextView
+    <!--<TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
@@ -58,6 +36,18 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="3.."
-        android:padding="10dp" />
+        android:padding="10dp" />-->
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Agregar un Producto"
+        android:id="@+id/btn_agregar"/>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/lv_productos">
+
+    </ListView>
+
 
 </LinearLayout>

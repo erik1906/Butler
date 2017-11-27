@@ -87,7 +87,7 @@ public class MapsActivity extends  AppCompatActivity implements GoogleMap.OnMyLo
 
         mResultReceiver = new AddressResultReceiver(new Handler());
         SupportMapFragment mapFragment =
-                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+                (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map1);
         mapFragment.getMapAsync(this);
 
     }
