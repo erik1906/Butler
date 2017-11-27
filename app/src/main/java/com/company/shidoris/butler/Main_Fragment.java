@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.hardware.SensorManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -35,6 +36,10 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.company.shidoris.butler.apis.APIMaps;
+import com.company.shidoris.butler.apis.MapsInterface;
+import com.company.shidoris.butler.model.MapsDirection.DirectionRes;
+import com.company.shidoris.butler.model.MapsDirection.Routes;
 import com.company.shidoris.butler.model.Request;
 import com.company.shidoris.butler.model.RequestsData;
 import com.company.shidoris.butler.model.UserData;
@@ -59,14 +64,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.maps.android.PolyUtil;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,9 +82,13 @@ import butterknife.OnClick;
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
 import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static android.content.ContentValues.TAG;
 import static android.content.Context.LOCATION_SERVICE;
+import static com.google.android.gms.maps.model.JointType.ROUND;
 
 
 /**
@@ -91,15 +103,20 @@ public class Main_Fragment extends Fragment implements OnMapReadyCallback
 {
 
 GoogleMap mGoogleMap;
-MapView mMapView;
+//MapView mMapView;
     FloatingActionButton btn_cancel,btn_add;
+    private GoogleMap mMap;
+
+    private MapView mMapView;
+    private MapsInterface mapsInterface;
+
 
     private DatabaseReference mDatabase;
     TextView txt_duration;
 
 
 
-             // TODO: Rename parameter arguments, choose names that match
+    // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -139,6 +156,7 @@ MapView mMapView;
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mapsInterface = APIMaps.getDirectionApi().create(MapsInterface.class);
     }
 
 
@@ -161,8 +179,7 @@ MapView mMapView;
         txt_duration=(TextView)rootView.findViewById(R.id.txt_duration);
 
 
-        Toast.makeText(getContext(), "Hola.",
-                Toast.LENGTH_SHORT).show();
+
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
@@ -298,6 +315,8 @@ mGoogleMap=map;
 
        final ArrayAdapter<String>adapter= new ArrayAdapter<String>(promptView.getContext(),android.R.layout.simple_expandable_list_item_1,listaProductos);
        lvproducto.setAdapter(adapter);
+        final ArrayAdapter<String >adapter= new ArrayAdapter<String>(promptView.getContext(),android.R.layout.simple_expandable_list_item_1,listaProductos);
+        lvproducto.setAdapter(adapter);
 
         btn_addP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -316,6 +335,10 @@ mGoogleMap=map;
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        Intent intent = new Intent(getContext(), MapsActivity.class);
+                        intent.putExtra("array",listaProductos);
+                        startActivity(intent);
+                        dialog.dismiss();
                         // resultText.setText("Hello, " + editText.getText());
                         //mDatabase = FirebaseDatabase.getInstance().getReference();
                         //DatabaseCUD.newRequest(mDatabase, new Request("Deliver","12/12/2013", "1234341234","124123423","12342342","2423412344", DummyData.getProductsDummy()));
@@ -383,6 +406,101 @@ mGoogleMap=map;
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+    private void getPoints(final String fromLat, final String fromLong, final String toLat, final String toLong, final String butlerLat, final String butlerLong) {
+        Log.d("update",butlerLat+butlerLong+toLat+toLong+"via:"+fromLat+fromLong);
+        Call<DirectionRes> mapsCall = mapsInterface.getDirectionPlace(butlerLat+","+butlerLong,toLat+","+toLong,"via:"+fromLat+","+fromLong, "AIzaSyC5VRkgiAoBNPijqz73FH4Glp12UvhqPX8");
+        mapsCall.enqueue(new Callback<DirectionRes>() {
+            @Override
+            public void onResponse(Call<DirectionRes> call, Response<DirectionRes> response) {
+                final Routes[] res = response.body().getRoutes();
+                LatLng to=new LatLng(Double.valueOf(toLat),Double.valueOf(toLong));
+                LatLng from=new LatLng(Double.valueOf(fromLat),Double.valueOf(fromLong));
+                LatLng butler=new LatLng(Double.valueOf(butlerLat),Double.valueOf(butlerLong));
+                updateUI(res[0].getOverviewPolyline().getPoints(),to,from,butler);
 
+                Routes routes[] = response.body().getRoutes();
+                String duration = ""+ routes[0].getLegs()[0].getDuration().getText();
+                Log.i("Duration", duration);
+            }
 
-         }
+            @Override
+            public void onFailure(Call<DirectionRes> call, Throwable t) {
+
+            }
+        });
+    }
+
+    private void updateUI(String points, LatLng to, LatLng from, LatLng butle) {
+        CameraPosition cameraPosition = new CameraPosition.Builder()
+                .target(to)      // Sets the center of the map to location user
+                .zoom(14)                   // Sets the zoom
+                .build();                   // Creates a CameraPosition from the builder
+        mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+        mMap.addMarker(new MarkerOptions().draggable(false).position(to).title("To here").icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+        mMap.addMarker(new MarkerOptions().draggable(false).position(from).title("From here"));
+        mMap.addMarker(new MarkerOptions().draggable(false).position(butle).title("Butler"));
+        List<LatLng> decodedPath = PolyUtil.decode(points);
+        mMap.addPolyline(new PolylineOptions().width(7).jointType(ROUND).color(Color.RED).addAll(decodedPath));
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mDatabase.child("userId").addValueEventListener(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        // Get BoardContent value
+                        UserData userData = dataSnapshot.getValue(UserData.class);
+
+                        if (userData == null || userData.getCurrentRequest()== null) {
+                            // Note is null, error out
+
+                        } else {
+                            String requestId = userData.getCurrentRequest();
+                            mDatabase.child("requestsdata").child(requestId).addValueEventListener(
+                                    new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            // Get BoardContent value
+                                            Request request = dataSnapshot.getValue(Request.class);
+
+                                            if(request.getStatus().equals("Accepted")) {
+
+                                                getPoints(request.getPickupLat(),
+                                                        request.getPickupLong(),
+                                                        request.getDeliverLat(),
+                                                        request.getDeliverLong(),
+                                                        request.getButlerLat(),
+                                                        request.getButlerLong());
+                                            }else if(request.getStatus().equals("buy")) {
+                                                /*getPoints(request.getPickupLat(),
+                                                        request.getPickupLong(),
+                                                        request.getDeliverLat(),
+                                                        request.getDeliverLong());*/
+                                            }else{
+
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                            Log.w(TAG, "getPost:onCancelled", databaseError.toException());
+
+                                        }
+                                    });
+
+                        }
+
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w(TAG, "getPost:onCancelled", databaseError.toException());
+
+                    }
+                });
+
+    }
+
+}

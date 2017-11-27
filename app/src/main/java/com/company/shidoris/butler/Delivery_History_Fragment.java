@@ -11,9 +11,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.company.shidoris.butler.adapters.RecyclerViewDeliveryHistoryAdapter;
+import com.company.shidoris.butler.model.Request;
+import com.company.shidoris.butler.model.RequestsData;
 import com.company.shidoris.butler.model.view.DeliveryRegister;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
@@ -42,6 +50,8 @@ public class Delivery_History_Fragment extends Fragment {
 
     private RecyclerView deliveryHistory;
     private ArrayList<DeliveryRegister> registers;
+
+    private DatabaseReference database;
 
     public Delivery_History_Fragment() {
         // Required empty public constructor
@@ -96,6 +106,8 @@ public class Delivery_History_Fragment extends Fragment {
         deliveryHistory.setLayoutManager(new LinearLayoutManager(getActivity()));
         deliveryHistory.setAdapter(adapter);
 
+        initDatabase();
+
         return rootView;
     }
 
@@ -137,4 +149,44 @@ public class Delivery_History_Fragment extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void initDatabase(){
+        database = FirebaseDatabase.getInstance().getReference();
+
+        ValueEventListener reqListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                System.out.println("--------------------Hola ---------------------");
+
+                RequestsData data = dataSnapshot.getValue(RequestsData.class);
+                ArrayList<String> avaRequests = new ArrayList<>();
+                ArrayList<String> accRequests = new ArrayList<>();
+                Map<String, Request> map = data.getRequestsdata();
+
+                refreshRecyclerView(map);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        };
+
+        database.addValueEventListener(reqListener);
+    }
+
+    public void refreshRecyclerView(Map<String, Request> items){
+
+        registers.clear();
+
+        for (Map.Entry<String, Request> entry : items.entrySet()){
+            Request req = entry.getValue();
+            registers.add(new DeliveryRegister(req.getDate(), req.getStatus(), "$1000"));
+        }
+
+        RecyclerViewDeliveryHistoryAdapter adapter = new RecyclerViewDeliveryHistoryAdapter(registers);
+        deliveryHistory.setAdapter(adapter);
+    }
+
 }

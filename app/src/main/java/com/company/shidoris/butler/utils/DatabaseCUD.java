@@ -109,14 +109,14 @@ public class DatabaseCUD {
 
     private static void writeNewCurrent(DatabaseReference mDatabase, Request request) {
 
-        mDatabase.child("userId").child(CURRENT).setValue(request);
+        mDatabase.child("userId").child(CURRENT).setValue(request.getId());
     }
     /**
      * Add new note to the selected board.
      *
      * @param mDatabase Database reference to the database.
      */
-  /*  public static void finishCurrent(final DatabaseReference mDatabase) {
+    /*public static void finishCurrent(final DatabaseReference mDatabase) {
         mDatabase.child("userId").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -131,7 +131,7 @@ public class DatabaseCUD {
                         } else {
                             //Send the data to add the note ot the database.
                             String request = userData.getCurrentRequest();
-                            request.setStatus("Delivered");
+                            //request.setStatus("Delivered");
                             mDatabase.child("userId").child(CURRENT).removeValue();
 
                             if (userData == null || userData.getRequestIds() == null) {
@@ -152,8 +152,8 @@ public class DatabaseCUD {
 
                     }
                 });
-    }
-*/
+    }*/
+
 
     private static void writeFinishCurrent(DatabaseReference mDatabase, String id, List<String> requestIds) {
         requestIds.add(id);
@@ -174,7 +174,7 @@ public class DatabaseCUD {
                             Log.e("Current", "No current request");
                         } else {
 
-                            Request request = userData.getCurrentRequest();
+                            String request = userData.getCurrentRequest();
                             request.setStatus(status);
                             writeNewCurrent(mDatabase,request);
 

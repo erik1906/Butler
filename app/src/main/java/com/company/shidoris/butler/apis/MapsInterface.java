@@ -16,5 +16,8 @@ public interface MapsInterface {
     Call<RoadsResponse> getRoads (@Query("path") String path, @Query("key") String key );
 
     @GET("json?")
-    Call<DirectionRes> getDirection (@Query("origin") String origin, @Query("destination") String destination, @Query("key") String key );
+    Call<DirectionRes> getDirectionPlace (@Query("origin") String origin, @Query("destination") String destination,@Query("waypoints") String waypoint ,@Query("key") String key );
+
+    @GET("json?")
+    Call<DirectionRes> getDirection (@Query("origin") String origin, @Query("destination") String destination,@Query("key") String key );
 }

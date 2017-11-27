@@ -21,7 +21,7 @@ public class Request {
     private List<Product> productList;
 
     public Request(){
-        
+
     }
 
     public Request(String status, String date, String pickupLat, String pickupLong, String deliverLat, String deliverLong, String butlerLat, String butlerLong, List<Product> productList) {
