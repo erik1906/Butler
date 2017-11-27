@@ -29,6 +29,7 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="Snapnotes" />
+
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -41,6 +42,7 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
+
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -48,14 +50,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+
 
         <activity android:name=".AddCredit"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_add_credit_card"></activity>
+            android:label="@string/title_activity_add_credit_card"
+            android:theme="@style/FullscreenTheme"></activity>
+
         <activity android:name=".TestDatabaseActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -67,7 +74,7 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyDbEqOY8HkFxTkL-3v_P6RSleJHlql9EFc" />
+            android:value="@string/google_maps_key" />
 
         <activity
             android:name=".MapsActivity"
