@@ -35,6 +35,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.company.shidoris.butler.apis.APIMaps;
 import com.company.shidoris.butler.apis.MapsInterface;
 import com.company.shidoris.butler.model.MapsDirection.DirectionRes;
 import com.company.shidoris.butler.model.MapsDirection.Routes;
@@ -150,6 +151,7 @@ public class Main_Fragment extends Fragment implements OnMapReadyCallback
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        mapsInterface = APIMaps.getDirectionApi().create(MapsInterface.class);
     }
 
 
@@ -210,6 +212,7 @@ public class Main_Fragment extends Fragment implements OnMapReadyCallback
             btn_cancel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    System.out.println("Holaasadasa");
                     showInputDialog();
                     //cancelDialog();
                 }
@@ -353,8 +356,8 @@ public class Main_Fragment extends Fragment implements OnMapReadyCallback
         void onFragmentInteraction(Uri uri);
     }
     private void getPoints(final String fromLat, final String fromLong, final String toLat, final String toLong, final String butlerLat, final String butlerLong) {
-        //Log.d("update",to.latitude+","+to.longitude+"|"+from.latitude+","+from.longitude);
-        Call<DirectionRes> mapsCall = mapsInterface.getDirectionPlace(fromLat+fromLong,toLat+toLong,butlerLat+butlerLong, "AIzaSyC5VRkgiAoBNPijqz73FH4Glp12UvhqPX8");
+        Log.d("update",butlerLat+butlerLong+toLat+toLong+"via:"+fromLat+fromLong);
+        Call<DirectionRes> mapsCall = mapsInterface.getDirectionPlace(butlerLat+","+butlerLong,toLat+","+toLong,"via:"+fromLat+","+fromLong, "AIzaSyC5VRkgiAoBNPijqz73FH4Glp12UvhqPX8");
         mapsCall.enqueue(new Callback<DirectionRes>() {
             @Override
             public void onResponse(Call<DirectionRes> call, Response<DirectionRes> response) {
@@ -364,6 +367,9 @@ public class Main_Fragment extends Fragment implements OnMapReadyCallback
                 LatLng butler=new LatLng(Double.valueOf(butlerLat),Double.valueOf(butlerLong));
                 updateUI(res[0].getOverviewPolyline().getPoints(),to,from,butler);
 
+                Routes routes[] = response.body().getRoutes();
+                String duration = ""+ routes[0].getLegs()[0].getDuration().getText();
+                Log.i("Duration", duration);
             }
 
             @Override

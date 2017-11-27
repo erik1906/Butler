@@ -13,6 +13,17 @@ public class Routes implements Serializable{
     @SerializedName("overview_polyline")
     OverviewPolyline overviewPolyline;
 
+    @SerializedName("legs")
+    Legs[] legs;
+
+    public Legs[] getLegs() {
+        return legs;
+    }
+
+    public void setLegs(Legs[] legs) {
+        this.legs = legs;
+    }
+
     public OverviewPolyline getOverviewPolyline() {
         return overviewPolyline;
     }
