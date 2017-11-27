@@ -20,6 +20,10 @@ public class Request {
     private String butlerLong;
     private List<Product> productList;
 
+    public Request(){
+        
+    }
+
     public Request(String status, String date, String pickupLat, String pickupLong, String deliverLat, String deliverLong, String butlerLat, String butlerLong, List<Product> productList) {
         this.status = status;
         this.date = date;
