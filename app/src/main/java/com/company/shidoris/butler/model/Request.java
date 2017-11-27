@@ -16,18 +16,19 @@ public class Request {
     private String pickupLong;
     private String deliverLat;
     private String deliverLong;
+    private String butlerLat;
+    private String butlerLong;
     private List<Product> productList;
 
-    public Request() {
-    }
-
-    public Request(String status, String date, String pickupLat, String pickupLong, String deliverLat, String deliverLong, List<Product> productList) {
+    public Request(String status, String date, String pickupLat, String pickupLong, String deliverLat, String deliverLong, String butlerLat, String butlerLong, List<Product> productList) {
         this.status = status;
         this.date = date;
         this.pickupLat = pickupLat;
         this.pickupLong = pickupLong;
         this.deliverLat = deliverLat;
         this.deliverLong = deliverLong;
+        this.butlerLat = butlerLat;
+        this.butlerLong = butlerLong;
         this.productList = productList;
     }
 
@@ -85,6 +86,22 @@ public class Request {
 
     public void setDeliverLong(String deliverLong) {
         this.deliverLong = deliverLong;
+    }
+
+    public String getButlerLat() {
+        return butlerLat;
+    }
+
+    public void setButlerLat(String butlerLat) {
+        this.butlerLat = butlerLat;
+    }
+
+    public String getButlerLong() {
+        return butlerLong;
+    }
+
+    public void setButlerLong(String butlerLong) {
+        this.butlerLong = butlerLong;
     }
 
     public List<Product> getProductList() {
