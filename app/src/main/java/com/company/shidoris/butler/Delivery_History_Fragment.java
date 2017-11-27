@@ -4,9 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.company.shidoris.butler.adapters.RecyclerViewDeliveryHistoryAdapter;
+import com.company.shidoris.butler.model.view.DeliveryRegister;
+
+import java.util.ArrayList;
 
 import de.codecrafters.tableview.TableView;
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter;
@@ -32,6 +39,9 @@ public class Delivery_History_Fragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private RecyclerView deliveryHistory;
+    private ArrayList<DeliveryRegister> registers;
 
     public Delivery_History_Fragment() {
         // Required empty public constructor
@@ -62,21 +72,29 @@ public class Delivery_History_Fragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        registers = new ArrayList<>();
     }
     private static final String[] TABLE_HEADERS = { "Delivery", "Date", "Amount" };
     private static final String[][] DATA_TO_SHOW = { { "Delivery 1", "12/12/17", "$500" },{ "Delivery 2", "12/12/17", "$500" },
             { "Delivery 3", "08/12/17", "$200" }, { "Delivery 4", "11/12/17", "$1,500" },};
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View rootView= inflater.inflate(R.layout.fragment_delivery__history, container, false);
 
-        TableView<String[]> tableView = (TableView<String[]>)rootView.findViewById(R.id.tableView2);
-        tableView.setDataAdapter(new SimpleTableDataAdapter(getContext(), DATA_TO_SHOW));
-        tableView.setHeaderAdapter(new SimpleTableHeaderAdapter(getContext(), TABLE_HEADERS));
 
+        registers.add(new DeliveryRegister("12/12/17","Accepted" , "$500"));
+        registers.add(new DeliveryRegister("12/12/17", "Deliver", "$500"));
+        registers.add(new DeliveryRegister("08/12/17", "Accepted", "$200"));
 
+        RecyclerViewDeliveryHistoryAdapter adapter = new RecyclerViewDeliveryHistoryAdapter(registers);
+
+        deliveryHistory = rootView.findViewById(R.id.delivery_history_list);
+        deliveryHistory.setLayoutManager(new LinearLayoutManager(getActivity()));
+        deliveryHistory.setAdapter(adapter);
 
         return rootView;
     }
