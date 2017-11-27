@@ -25,7 +25,10 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.company.shidoris.butler.model.Product;
+import com.company.shidoris.butler.model.Request;
 import com.company.shidoris.butler.utils.Constants;
+import com.company.shidoris.butler.utils.DatabaseCUD;
 import com.company.shidoris.butler.utils.FetchAddressIntentService;
 import com.company.shidoris.butler.utils.PermissionUtils;
 import com.google.android.gms.common.ConnectionResult;
@@ -44,7 +47,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import butterknife.BindView;
@@ -65,6 +75,7 @@ public class MapsActivity extends  AppCompatActivity implements GoogleMap.OnMyLo
     private boolean mPermissionDenied = false;
     protected Location mLastLocation;
     private AddressResultReceiver mResultReceiver;
+    private DatabaseReference mDatabase;
 
     private GoogleMap mMap;
 
@@ -84,7 +95,7 @@ public class MapsActivity extends  AppCompatActivity implements GoogleMap.OnMyLo
         ButterKnife.bind(this);
 
         tvSelect.setText("Select the destinationo: ");
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         mResultReceiver = new AddressResultReceiver(new Handler());
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map1);
@@ -148,10 +159,31 @@ public class MapsActivity extends  AppCompatActivity implements GoogleMap.OnMyLo
     }
     @OnClick(R.id.bNext)
     public void tracking(){
-        Intent intent = new Intent(this,TrackingActivity.class);
+        /*Intent intent = new Intent(this,TrackingActivity.class);
         intent.putExtra("from", markerFrom.getPosition());
         intent.putExtra("to", markerTo.getPosition());
-        startActivity(intent);
+        startActivity(intent);*/
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        String formatDate = simpleDateFormat.format(date);
+        ArrayList<String> array = getIntent().getStringArrayListExtra("array");
+
+        List<Product> products = new ArrayList<>();
+        for (String s : array) {
+            products.add(new Product(s));
+        }
+
+        Request request = new Request(
+                "Requested",
+                formatDate,
+                ""+markerFrom.getPosition().latitude,
+                ""+markerFrom.getPosition().longitude,
+                ""+markerTo.getPosition().latitude,
+                ""+markerTo.getPosition().longitude,
+                null,
+                null,
+                products);
+        DatabaseCUD.newRequest(mDatabase,request);
     }
 
     @Override

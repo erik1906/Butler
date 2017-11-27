@@ -8,18 +8,18 @@ import java.util.List;
 
 public class UserData {
 
-    private Request currentRequest;
+    private String currentRequest;
     private List<String> requestIds;
 
 
     public UserData() {
     }
 
-    public Request getCurrentRequest() {
+    public String getCurrentRequest() {
         return currentRequest;
     }
 
-    public void setCurrentRequest(Request currentRequest) {
+    public void setCurrentRequest(String currentRequest) {
         this.currentRequest = currentRequest;
     }
 
