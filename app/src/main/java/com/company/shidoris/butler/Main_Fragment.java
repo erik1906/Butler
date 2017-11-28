@@ -113,7 +113,8 @@ GoogleMap mGoogleMap;
 
     private DatabaseReference mDatabase;
     TextView txt_duration;
-
+    TextView tvWait;
+    private boolean doit;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -139,7 +140,7 @@ GoogleMap mGoogleMap;
      * @param param2 Parameter 2.
      * @return A new instance of fragment Main_Fragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static Main_Fragment newInstance(String param1, String param2) {
         Main_Fragment fragment = new Main_Fragment();
         Bundle args = new Bundle();
@@ -168,6 +169,7 @@ GoogleMap mGoogleMap;
 
 
 
+    doit= true;
         /*
         * Button ADD
         * */
@@ -177,20 +179,21 @@ GoogleMap mGoogleMap;
         btn_cancel = (FloatingActionButton)rootView.findViewById(R.id.btn_delete);
         btn_add = (FloatingActionButton)rootView.findViewById(R.id.btn_add);
         txt_duration=(TextView)rootView.findViewById(R.id.txt_duration);
-
-
+        tvWait = rootView.findViewById(R.id.tvWait);
 
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase.child("userId").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("userId").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserData userData = dataSnapshot.getValue(UserData.class);
                 if (userData == null || userData.getCurrentRequest()== null) {
                     // Note is null, error out
                     //Log.d("Current","you can only have one requestat the time");
-                    showInputDialog();
+                    if(doit) {
+                        showInputDialog();
+                    }
                     btn_cancel.setVisibility(View.GONE);
                     btn_add.setVisibility(View.VISIBLE);
 
@@ -226,8 +229,8 @@ private void showSnack(){
             .setAction("UNDO", new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Snackbar snackbar1 = Snackbar.make(getView(), "HOLI!", Snackbar.LENGTH_SHORT);
-                    snackbar1.show();
+                    //Snackbar snackbar1 = Snackbar.make(getView(), "HOLI!", Snackbar.LENGTH_SHORT);
+                    //snackbar1.show();
                 }
             });
 
@@ -252,7 +255,7 @@ private void mapView(View view){
 
         }
 
-}
+    }
 
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -279,23 +282,6 @@ private void mapView(View view){
         mListener = null;
     }
 
-    @Override
-    public void onMapReady(GoogleMap map) {
-
-
-MapsInitializer.initialize(getContext());
-
-mGoogleMap=map;
-    map.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-    map.addMarker(new MarkerOptions().position(new LatLng(19.2680651,-99.706783)).title("ITESM"));
-    CameraPosition position = CameraPosition.builder().target(new LatLng(19.2680651,-99.706783)).zoom(16).bearing(0).tilt(45).build();
-    map.moveCamera(CameraUpdateFactory.newCameraPosition(position));
-
-    }
-
-
-
-
 
     private void showInputDialog() {
 
@@ -315,8 +301,6 @@ mGoogleMap=map;
 
        final ArrayAdapter<String>adapter= new ArrayAdapter<String>(promptView.getContext(),android.R.layout.simple_expandable_list_item_1,listaProductos);
        lvproducto.setAdapter(adapter);
-        final ArrayAdapter<String >adapter= new ArrayAdapter<String>(promptView.getContext(),android.R.layout.simple_expandable_list_item_1,listaProductos);
-        lvproducto.setAdapter(adapter);
 
         btn_addP.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -324,7 +308,7 @@ mGoogleMap=map;
 
 
                 String prod= editText.getText().toString();
-               // Log.d("HOLALALALALALA",prod);
+                // Log.d("HOLALALALALALA",prod);
                 listaProductos.add(prod);
                 adapter.notifyDataSetChanged();
             }
@@ -335,6 +319,7 @@ mGoogleMap=map;
         alertDialogBuilder.setCancelable(false)
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        doit= false;
                         Intent intent = new Intent(getContext(), MapsActivity.class);
                         intent.putExtra("array",listaProductos);
                         startActivity(intent);
@@ -361,7 +346,7 @@ mGoogleMap=map;
 
         // get prompts.xml view
         LayoutInflater layoutInflater = LayoutInflater.from(getContext());
-       // View promptView = layoutInflater.inflate(R.layout.alert_dialog_delivery, null);
+        // View promptView = layoutInflater.inflate(R.layout.alert_dialog_delivery, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getContext());
         //alertDialogBuilder.setView(promptView);
         alertDialogBuilder.setTitle("Seguro que deseas cancelar el pedido?");
@@ -373,8 +358,13 @@ mGoogleMap=map;
                         // resultText.setText("Hello, " + editText.getText());
                         //mDatabase = FirebaseDatabase.getInstance().getReference();
                         //DatabaseCUD.newRequest(mDatabase, new Request("Deliver","12/12/2013", "1234341234","124123423","12342342","2423412344", DummyData.getProductsDummy()));
-                       // Intent intent = new Intent(getContext(), MapsActivity.class);
+                        // Intent intent = new Intent(getContext(), MapsActivity.class);
                         //startActivity(intent);
+                        DatabaseCUD.finishCurrent(mDatabase);
+                        txt_duration.setText("");
+                        mMap.clear();
+                        doit = true;
+                        dialog.dismiss();
                     }
                 })
                 .setNegativeButton("Cancel",
@@ -407,7 +397,7 @@ mGoogleMap=map;
         void onFragmentInteraction(Uri uri);
     }
     private void getPoints(final String fromLat, final String fromLong, final String toLat, final String toLong, final String butlerLat, final String butlerLong) {
-        Log.d("update",butlerLat+butlerLong+toLat+toLong+"via:"+fromLat+fromLong);
+        //Log.d("update",to.latitude+","+to.longitude+"|"+from.latitude+","+from.longitude);
         Call<DirectionRes> mapsCall = mapsInterface.getDirectionPlace(butlerLat+","+butlerLong,toLat+","+toLong,"via:"+fromLat+","+fromLong, "AIzaSyC5VRkgiAoBNPijqz73FH4Glp12UvhqPX8");
         mapsCall.enqueue(new Callback<DirectionRes>() {
             @Override
@@ -420,6 +410,7 @@ mGoogleMap=map;
 
                 Routes routes[] = response.body().getRoutes();
                 String duration = ""+ routes[0].getLegs()[0].getDuration().getText();
+                txt_duration.setText(duration);
                 Log.i("Duration", duration);
             }
 
@@ -467,19 +458,24 @@ mGoogleMap=map;
 
                                             if(request.getStatus().equals("Accepted")) {
 
-                                                getPoints(request.getPickupLat(),
-                                                        request.getPickupLong(),
-                                                        request.getDeliverLat(),
-                                                        request.getDeliverLong(),
-                                                        request.getButlerLat(),
-                                                        request.getButlerLong());
+                                                if(request.getButlerLong()!= null && request.getButlerLat() != null) {
+                                                    getPoints(request.getPickupLat(),
+                                                            request.getPickupLong(),
+                                                            request.getDeliverLat(),
+                                                            request.getDeliverLong(),
+                                                            request.getButlerLat(),
+                                                            request.getButlerLong());
+                                                    setUiText("");
+
+                                                }
                                             }else if(request.getStatus().equals("buy")) {
                                                 /*getPoints(request.getPickupLat(),
                                                         request.getPickupLong(),
                                                         request.getDeliverLat(),
                                                         request.getDeliverLong());*/
                                             }else{
-
+                                                setUiText("Wait until someone accept...");
+//                                                tvWait.setText("");
                                             }
                                         }
 
@@ -501,6 +497,10 @@ mGoogleMap=map;
                     }
                 });
 
+    }
+
+    private void setUiText(String string){
+        tvWait.setText(string);
     }
 
 }

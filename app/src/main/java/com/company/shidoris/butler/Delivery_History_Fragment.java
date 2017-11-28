@@ -182,7 +182,7 @@ public class Delivery_History_Fragment extends Fragment {
 
         for (Map.Entry<String, Request> entry : items.entrySet()){
             Request req = entry.getValue();
-            registers.add(new DeliveryRegister(req.getDate(), req.getStatus(), "$1000"));
+            registers.add(new DeliveryRegister(req.getDate(), req.getStatus(), ""));
         }
 
         RecyclerViewDeliveryHistoryAdapter adapter = new RecyclerViewDeliveryHistoryAdapter(registers);

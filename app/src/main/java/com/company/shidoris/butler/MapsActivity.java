@@ -164,7 +164,7 @@ public class MapsActivity extends  AppCompatActivity implements GoogleMap.OnMyLo
         intent.putExtra("to", markerTo.getPosition());
         startActivity(intent);*/
         Date date = new Date();
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/mm/yyyy");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy");
         String formatDate = simpleDateFormat.format(date);
         ArrayList<String> array = getIntent().getStringArrayListExtra("array");
 
@@ -184,6 +184,7 @@ public class MapsActivity extends  AppCompatActivity implements GoogleMap.OnMyLo
                 null,
                 products);
         DatabaseCUD.newRequest(mDatabase,request);
+        finish();
     }
 
     @Override

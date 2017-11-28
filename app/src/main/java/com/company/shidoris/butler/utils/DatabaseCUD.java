@@ -116,7 +116,7 @@ public class DatabaseCUD {
      *
      * @param mDatabase Database reference to the database.
      */
-    /*public static void finishCurrent(final DatabaseReference mDatabase) {
+    public static void finishCurrent(final DatabaseReference mDatabase) {
         mDatabase.child("userId").addListenerForSingleValueEvent(
                 new ValueEventListener() {
                     @Override
@@ -136,10 +136,10 @@ public class DatabaseCUD {
 
                             if (userData == null || userData.getRequestIds() == null) {
                                 // Note is null, error out
-                                writeFinishCurrent(mDatabase,request.getId(), new ArrayList<String>());
+                                writeFinishCurrent(mDatabase,request, new ArrayList<String>());
                             } else {
 
-                                writeFinishCurrent(mDatabase,request.getId(), userData.getRequestIds());
+                                writeFinishCurrent(mDatabase,request, userData.getRequestIds());
                             }
 
                         }
@@ -152,12 +152,14 @@ public class DatabaseCUD {
 
                     }
                 });
-    }*/
+    }
 
 
     private static void writeFinishCurrent(DatabaseReference mDatabase, String id, List<String> requestIds) {
         requestIds.add(id);
+        mDatabase.child("requestsdata").child(id).child("status").setValue("Cancelled");
         mDatabase.child("userId").child(REQUESTIDS).setValue(requestIds);
+
     }
 
 
@@ -175,7 +177,6 @@ public class DatabaseCUD {
                         } else {
 
                             String request = userData.getCurrentRequest();
-                            request.setStatus(status);
                             writeNewCurrent(mDatabase,request);
 
                         }

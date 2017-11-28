@@ -19,7 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ActivityLogin"></activity>
+        <activity android:name=".ActivityLogin" />
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -29,7 +29,6 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="Snapnotes" />
-
         <activity
             android:name="com.facebook.CustomTabActivity"
             android:exported="true">
@@ -42,7 +41,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <activity android:name=".SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -50,19 +48,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar">
-        </activity>
-
-
-        <activity android:name=".AddCredit"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".AddCredit"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_add_credit_card">
-        </activity>
-
+            android:label="@string/title_activity_add_credit_card"></activity>
         <activity android:name=".TestDatabaseActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -86,7 +79,8 @@
 
         <activity
             android:name=".TrackingActivity"
-            android:label="@string/title_activity_tracking"></activity>
+            android:label="@string/title_activity_tracking" />
+        <activity android:name=".DisplayList"></activity>
     </application>
 
 </manifest>
